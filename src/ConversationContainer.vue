@@ -7,6 +7,7 @@
 			:message="message" 
 			:key="message.created" 
 		/>
+		<input v-model="newMessageText" @keyup.enter="send" placeholder="Type something..." />
 	</div>
 </template>
 <script>
@@ -35,6 +36,16 @@
 				}
   			})
 		},
+		methods: {
+			send () {
+				this.$store.dispatch('conversations/sendMessage', { 
+						text: this.newMessageText, 
+						created: Date.now(),
+						conversationId: this.id,
+						sender: this.$store.state.users.currentUser
+					})  
+				}
+			},
 		components: {
 			Message
 		}
